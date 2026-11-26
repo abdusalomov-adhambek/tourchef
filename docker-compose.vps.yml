@@ -1,0 +1,86 @@
+name: tourchef
+
+# VPS deployment: ports 80/443 are owned by the shared Caddy container.
+# Services listen on localhost-only ports and Caddy routes the public domain
+# to the Nuxt frontend; /api/** and /uploads/** are proxied by Nitro to Go.
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    networks:
+      default:
+        aliases:
+          - tourchef-postgres
+    restart: unless-stopped
+
+  backend:
+    build:
+      context: ./server
+    environment:
+      APP_ENV: production
+      PORT: 8080
+      DATABASE_URL: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@tourchef-postgres:5432/${POSTGRES_DB}?sslmode=disable
+      JWT_SECRET: ${JWT_SECRET}
+      JWT_EXPIRY: 168h
+      SEED: ${SEED:-false}
+      CORS_ORIGIN: ${SITE_URL}
+      SITE_URL: ${SITE_URL}
+      UPLOAD_DIR: /app/uploads
+    volumes:
+      - uploads:/app/uploads
+    ports:
+      - "127.0.0.1:18081:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q -O - http://127.0.0.1:8080/health | grep -q ok"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+    networks:
+      default:
+      caddy:
+        aliases:
+          - tourchef-backend
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./app
+      args:
+        API_PROXY_TARGET: http://tourchef-backend:8080
+    environment:
+      NUXT_PUBLIC_API_BASE: /api
+      NITRO_HOST: 0.0.0.0
+      NITRO_PORT: 3000
+    ports:
+      - "127.0.0.1:13001:3000"
+    depends_on:
+      - backend
+    networks:
+      default:
+      caddy:
+        aliases:
+          - tourchef-frontend
+    restart: unless-stopped
+
+networks:
+  default:
+  caddy:
+    name: agnts_default
+    external: true
+
+volumes:
+  pgdata:
+  uploads:

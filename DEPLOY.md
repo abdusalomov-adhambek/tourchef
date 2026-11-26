@@ -21,6 +21,7 @@
 ### Server tomonida
 - **80/443 portlari allaqachon umumiy Caddy (`agnts-caddy-1`) ga tegishli** — uni to'xtatish yoki qayta sozlash mumkin emas. Caddy konfiguratsiyasi: `/opt/agnts/Caddyfile.cloud` (konteyner ichida `/etc/caddy/Caddyfile`).
 - Caddy `agnts_default` tarmog'ida; boshqa loyihalar shunga qo'shilib, o'z nomlari bilan ko'rinadi.
+- `tourchef.app.codeops.uz` DNS orqali allaqachon serverga qaraydi, lekin Caddy da unga atalgan blok **yo'q** — hozir `codeops.caddy` dagi `https://` catch-all orqali `codeops:8000` ga tushadi. Aniq blok qo'shish shart.
 - Band qilingan host portlar: `13000`, `15173`, `18080`, `8090`, `8787`, `8000`, `8443`, pochta portlari.
 - UFW faol: faqat `22`, `80`, `443`, `443/udp`, `8443` + `172.16.0.0/12` ochilgan.
 - Disk 103 GB bo'sh, RAM 13 GB available — resurs yetarli.
@@ -35,8 +36,8 @@ Eng yaqin o'xshash namuna serverda bor: `/opt/rustam-dev/website` (Nuxt + Go + P
 
 | Savol | Tavsiya |
 |---|---|
-| Domain | **`tourchef.rustam-dev.uz`** (mavjud `rustam-dev.uz` ga A yozuv). Alternativ: `tourchef.uz` / `tourchef.agnts.uz` — DNS sizda bo'lsa. |
-| DNS | `A tourchef.rustam-dev.uz → 45.138.158.39`, ixtiyoriy `www → 45.138.158.39`. TLS sertifikatini Caddy o'zi oladi. |
+| Domain | **`tourchef.app.codeops.uz`** (foydalanuvchi so'ragan domen). E'tibor: serverdagi ko'p foydalanuvchi ilovalari `*.apps.codeops.uz` (ko'plik) sxemasida; bu domen `*.app.codeops.uz` (yakka) ostida, lekin wildcard DNS tufayli ishlaydi. |
+| DNS | **O'zgartirish shart emas** — `tourchef.app.codeops.uz` allaqachon `45.138.158.39` ga rezolyutsiya qilinadi (`dig` bilan tasdiqlangan). TLS sertifikatini Caddy o'zi oladi. |
 | Seed | Birinchi ishga tushirishda `SEED=true`, demo parollarni almashtirgach `SEED=false` qilib qo'yish. |
 | Portlar | Frontend `127.0.0.1:13001`, backend `127.0.0.1:18081`, Postgres — **faqat ichki tarmoqda** (host port yo'q). |
 
@@ -46,7 +47,7 @@ Eng yaqin o'xshash namuna serverda bor: `/opt/rustam-dev/website` (Nuxt + Go + P
 
 ```
 Internet ──443──▶ umumiy Caddy (TLS terminate)
-                   └─ tourchef.rustam-dev.uz ──▶ tourchef-frontend:3000
+                   └─ tourchef.app.codeops.uz ──▶ tourchef-frontend:3000
                          /api/**  ─▶ Nuxt Nitro proxy ─▶ tourchef-backend:8080/api/**
                          /uploads/** ─▶ Nitro proxy ─▶ tourchef-backend:8080/uploads/**
 
@@ -203,34 +204,29 @@ JWT_SECRET=<openssl rand -hex 32>
 JWT_EXPIRY=168h
 SEED=true
 
-SITE_URL=https://tourchef.rustam-dev.uz
+SITE_URL=https://tourchef.app.codeops.uz
 ```
 
 ---
 
 ## 6. Caddy ga qo'shiladigan blok
 
-`/opt/agnts/Caddyfile.cloud` oxiriga (zaxira olingach):
+**Muhim:** hozir `tourchef.app.codeops.uz` hech bir aniq sayt blokiga tushmaydi va `/opt/codeops/caddy/codeops.caddy` dagi `https://` catch-all ga tushib, `codeops:8000` ga yuboriladi (noto'g'ri joy). Shu sababli `/opt/agnts/Caddyfile.cloud` ga **aniq domen blokini** qo'shamiz. Aniq hostname har doim `https://` catch-all dan ustun turadi, shuning uchun `import /etc/caddy/codeops.caddy` satridan **oldin** qo'shish tavsiya etiladi (keyin qo'shsangiz ham ishlaydi, lekin oldin qo'yish aniqroq).
 
 ```caddyfile
 # TourChef — kulinar turizm marketpleysi (/opt/tourchef)
-tourchef.rustam-dev.uz {
+# Bu blok codeops ning catch-all (https://) ga tushib ketishining oldini oladi.
+tourchef.app.codeops.uz {
 	import security
 	encode zstd gzip
-	# /api/** va /uploads/** ni Nuxt Nitro o'zi proxy qiladi.
+	# /api/** va /uploads/** ni Nuxt Nitro o'zi proxy qiladi;
+	# ularni to'g'ridan-to'g'ri Go ga yubormang.
 	reverse_proxy tourchef-frontend:3000
 }
-
-www.tourchef.rustam-dev.uz {
-	redir https://tourchef.rustam-dev.uz{uri} permanent
-}
-
-# Ixtiyoriy: to'g'ridan-to'g'ri API/health (debug uchun)
-api.tourchef.rustam-dev.uz {
-	import security
-	reverse_proxy tourchef-backend:8080
-}
 ```
+
+> `on_demand` ishlatilmaydi — domen aniq yozilgani uchun Caddy oddiy Let's Encrypt ACME HTTP-01 orqali sertifikat oladi. `codeops` ning `on_demand_tls { ask ... }` qoidasi bu domenga ta'sir qilmaydi.
+> `www.` va `api.` subdomainlari kerak bo'lsa, ularni qo'shimcha blok sifatida yozing (ixtiyoriy).
 
 Tekshirish va qo'llash:
 
@@ -246,8 +242,10 @@ docker exec agnts-caddy-1 caddy reload --config /etc/caddy/Caddyfile --adapter c
 ## 7. Amalga oshirish bosqichlari
 
 ### Bosqich 0 — DNS va texnik xizmat (separate oyna)
-1. `tourchef.rustam-dev.uz` A yozuvini `45.138.158.39` ga qo'ying.
-2. `dig +short tourchef.rustam-dev.uz` bilan tasdiqlang.
+1. DNS o'zgartirish kerak emas — `*.codeops.uz` wildcard yozuvi domenni `45.138.158.39` ga yo'naltiradi:
+   `dig +short tourchef.app.codeops.uz` → `45.138.158.39` bo'lishi kerak.
+2. Caddy dagi hozirgi holatni tasdiqlang (hech qanday aniq blok yo'q, catch-all ga tushadi):
+   `grep -n 'app.codeops.uz' /opt/agnts/Caddyfile.cloud /opt/codeops/caddy/codeops.caddy`.
 3. (Tavsiya) 96 ta yangilanishni o'rnating va reboot qiling — **deploy bilan aralashtirmang**:
    `apt update && apt upgrade -y && reboot`.
 
@@ -272,7 +270,7 @@ POSTGRES_DB=tourchef
 JWT_SECRET=...hex...
 JWT_EXPIRY=168h
 SEED=true
-SITE_URL=https://tourchef.rustam-dev.uz
+SITE_URL=https://tourchef.app.codeops.uz
 EOF
 chmod 600 /opt/tourchef/.env
 ```
@@ -296,13 +294,13 @@ docker compose -f docker-compose.vps.yml ps
 ### Bosqich 6 — Caddy + TLS
 6-bo'limdagi blokni qo'shing, `validate` + `reload`. So'ngra:
 ```bash
-curl -sI https://tourchef.rustam-dev.uz | head -5
+curl -sI https://tourchef.app.codeops.uz | head -5
 ```
 
 ### Bosqich 7 — Smoke test
 ```bash
 cd /opt/tourchef
-API=https://tourchef.rustam-dev.uz/api bash scripts/smoke.sh
+API=https://tourchef.app.codeops.uz/api bash scripts/smoke.sh
 ```
 > Test ma'lumot qoldiradi (1 chef, 1 taom, 1 buyurtma). Keyin tozalang yoki demo ma'lumot deb qabul qiling.
 
@@ -349,6 +347,8 @@ tar czf /backups/tourchef/uploads-$(date +%F).tar.gz \
 | 8 | Caddy xatosi boshqa saytlarni buzadi | Zaxira + `caddy validate` + reload |
 | 9 | Server yangilanish talab qiladi | Deploy dan oldin alohida reboot oynasi |
 | 10 | Upload hajmi 10 MB ( kodda qattiq ) | Kerak bo'lsa `handlers_upload.go` dagi `maxUploadBytes` o'zgartirish |
+| 11 | Domen `codeops` catch-all ga tushib ketadi | `tourchef.app.codeops.uz` uchun aniq Caddy bloki; `caddy validate` bilan tasdiqlash |
+| 12 | `*.app` va `*.apps` nomlash farqi | Siz so'ragan `tourchef.app.codeops.uz` ishlatiladi; agar platforma konvensiyasiga rioya qilish kerak bo'lsa `tourchef.apps.codeops.uz` ga o'zgartiring |
 
 ---
 
@@ -359,4 +359,4 @@ tar czf /backups/tourchef/uploads-$(date +%F).tar.gz \
 - Caddy + DNS + TLS: ~5 daqiqa
 - Test + xavfsizlik: ~10 daqiqa
 
-**Natija:** `https://tourchef.rustam-dev.uz` — to'liq ishlaydigan platforma (public sayt, client/family kabinet, admin panel), API va rasmlar bir origin orqali, Postgres va uploads doimiy volume larda.
+**Natija:** `https://tourchef.app.codeops.uz` — to'liq ishlaydigan platforma (public sayt, client/family kabinet, admin panel), API va rasmlar bir origin orqali, Postgres va uploads doimiy volume larda.

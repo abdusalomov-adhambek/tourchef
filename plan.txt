@@ -1,0 +1,1573 @@
+# TOURCHEF — COMPLETE PROJECT DEVELOPMENT PLAN
+
+## 1. PROJECT OVERVIEW
+
+**Project Name:** TourChef
+**Project Type:** Culinary Tourism Marketplace
+**Market:** Uzbekistan
+**Platform:** Web Application
+**Development Approach:** Full-stack development
+
+### Project Purpose
+
+TourChef is a culinary tourism platform that connects tourists with local restaurants, chefs, and authentic Uzbek cooking experiences.
+
+Users can discover traditional Uzbek dishes, watch short cooking and restaurant experience videos, explore culinary masterclasses, book sessions, make payments, attend experiences, and leave reviews.
+
+Restaurants can register on the platform, create their profiles, publish culinary masterclasses, schedule sessions, manage bookings, and track their revenue.
+
+The platform administrator manages users, restaurants, content, bookings, payments, reviews, and the overall platform.
+
+The platform must be developed as a fully functional application, not just a static UI prototype.
+
+---
+
+# 2. TECHNOLOGY STACK
+
+Use the following technology stack.
+
+## Frontend
+
+- Nuxt 3
+- Vue 3
+- TypeScript
+- Tailwind CSS
+- Pinia for state management
+- Vue Router / Nuxt routing
+- Axios or Nuxt `$fetch` for API requests
+- VueUse where useful
+
+## Backend
+
+- Golang
+- Fiber framework
+- PostgreSQL
+- pgx for PostgreSQL connectivity
+- Redis for caching, sessions, and temporary booking reservations
+- JWT authentication
+- REST API
+- Swagger/OpenAPI documentation
+
+## Infrastructure
+
+- Docker
+- Docker Compose
+- Nginx
+- S3-compatible object storage for images and videos
+- Environment-based configuration
+
+Do not hardcode secrets, API keys, database credentials, or payment credentials.
+
+---
+
+# 3. APPLICATION ARCHITECTURE
+
+The application must contain four main user-facing areas:
+
+1. Public Landing Page
+2. Reels and Discovery Platform
+3. Client Cabinet
+4. Restaurant Cabinet
+5. Admin Panel
+
+The application must have a shared authentication system and role-based access control.
+
+Recommended frontend structure:
+
+- `/` — Landing Page
+- `/reels` — Reels Feed
+- `/masterclasses` — Masterclass Catalog
+- `/masterclasses/:slug` — Masterclass Details
+- `/restaurants/:slug` — Restaurant Profile
+- `/dishes/:slug` — Dish Details
+- `/login` — Login
+- `/register` — Registration
+- `/forgot-password` — Password Recovery
+- `/client/*` — Client Cabinet
+- `/restaurant/*` — Restaurant Cabinet
+- `/admin/*` — Admin Panel
+
+The application must use a consistent design system, reusable components, layouts, API services, and authentication middleware.
+
+---
+
+# 4. LANDING PAGE
+
+The Landing Page is the main public page of TourChef.
+
+Its purpose is to explain what TourChef is, attract tourists, introduce culinary experiences, and direct users to masterclasses and Reels.
+
+The Landing Page must be visually attractive, modern, premium, responsive, and focused on culinary tourism.
+
+## 4.1 Header
+
+Create a responsive header containing:
+
+- TourChef logo
+- Home
+- Explore Masterclasses
+- Reels
+- Restaurants
+- About TourChef
+- Login
+- Register
+- Become a Partner
+
+The header must have a sticky navigation behavior.
+
+On mobile, use a hamburger menu.
+
+## 4.2 Hero Section
+
+Create a large visual hero section.
+
+Main heading:
+
+"Discover Uzbekistan Through Its Flavors"
+
+Subtitle:
+
+"Experience authentic Uzbek cuisine, learn traditional recipes from local chefs, and explore the culture behind every dish."
+
+Primary buttons:
+
+- Explore Masterclasses
+- Watch Reels
+
+Use high-quality culinary photography featuring Uzbek dishes, traditional restaurants, chefs, and cooking experiences.
+
+The hero section should communicate the platform's purpose immediately.
+
+## 4.3 Search Section
+
+Create a search interface for culinary experiences.
+
+Search fields:
+
+- Destination
+- Dish
+- Date
+- Number of guests
+
+Search button:
+
+"Find Experiences"
+
+The search must connect to the real masterclass catalog and apply filters.
+
+## 4.4 Featured Masterclasses
+
+Display a section containing featured culinary experiences.
+
+Each card must include:
+
+- Cover image
+- Masterclass title
+- Restaurant name
+- City
+- Dish
+- Duration
+- Price
+- Rating
+- Available seats
+- Book Now button
+
+Clicking a card opens the masterclass detail page.
+
+## 4.5 Popular Uzbek Dishes
+
+Create a section displaying popular Uzbek dishes.
+
+Examples:
+
+- Plov
+- Manti
+- Somsa
+- Lagman
+- Shashlik
+- Chuchvara
+- Shurpa
+
+Each dish card must include:
+
+- Image
+- Dish name
+- Short description
+- Explore button
+
+Clicking a dish opens its detail page and related masterclasses.
+
+## 4.6 Featured Restaurants
+
+Display restaurants participating in TourChef.
+
+Each restaurant card must contain:
+
+- Restaurant cover
+- Restaurant name
+- Location
+- Cuisine
+- Rating
+- Number of masterclasses
+
+Clicking a restaurant opens its public profile.
+
+## 4.7 Reels Preview Section
+
+Create a dedicated section on the Landing Page introducing TourChef Reels.
+
+Section title:
+
+"Watch. Discover. Experience."
+
+Description:
+
+"Explore real culinary experiences through videos created by restaurants, chefs, and travelers."
+
+Display a horizontal or grid-based preview of Reels.
+
+Each preview should contain:
+
+- Video thumbnail
+- Play icon
+- Restaurant or creator name
+- Dish or masterclass title
+- View count
+
+Add a button:
+
+"Explore All Reels"
+
+This button opens `/reels`.
+
+## 4.8 How TourChef Works
+
+Create a simple three-step section:
+
+1. Discover — Explore restaurants, dishes, and culinary experiences.
+2. Book — Choose a masterclass, select a session, and reserve your place.
+3. Experience — Visit the restaurant, learn from a chef, and enjoy authentic Uzbek cuisine.
+
+## 4.9 About TourChef
+
+Explain the platform's mission.
+
+TourChef connects travelers with authentic Uzbek culinary culture through local restaurants, chefs, and cooking experiences.
+
+Include:
+
+- Platform mission
+- Benefits for tourists
+- Benefits for restaurants
+- Cultural tourism information
+
+## 4.10 Become a Partner
+
+Create a section for restaurants.
+
+Title:
+
+"Share Your Culinary Experience with the World"
+
+Description:
+
+"Join TourChef and introduce your restaurant, traditional recipes, and cooking experiences to travelers."
+
+Button:
+
+"Become a Restaurant Partner"
+
+This button opens restaurant registration.
+
+## 4.11 Testimonials
+
+Display customer reviews and testimonials.
+
+Each testimonial includes:
+
+- User avatar
+- User name
+- Review
+- Rating
+- Related experience
+
+## 4.12 Footer
+
+Include:
+
+- TourChef logo
+- About
+- Masterclasses
+- Reels
+- Restaurants
+- Contact
+- FAQ
+- Terms and Conditions
+- Privacy Policy
+- Social media links
+
+---
+
+# 5. TOURCHEF REELS
+
+Reels is a core feature of TourChef.
+
+It must resemble the vertical video discovery experience of Instagram Reels or TikTok, but its content must be exclusively related to TourChef culinary experiences.
+
+Do not create a general social media platform.
+
+The Reels feed must contain videos about:
+
+- Cooking masterclasses
+- Traditional Uzbek dishes
+- Restaurant experiences
+- Chefs preparing food
+- Tourists attending masterclasses
+- Restaurant interiors and atmosphere
+- Culinary traditions
+- Food preparation and serving
+
+## 5.1 Reels Feed
+
+Create a full-screen vertical video feed.
+
+Each Reel should occupy the majority of the viewport.
+
+The user must be able to scroll vertically to watch the next video.
+
+Use a smooth, mobile-first video experience.
+
+## 5.2 Reel Video Interface
+
+Each video must display:
+
+- Video
+- Restaurant or creator avatar
+- Restaurant name
+- Masterclass title
+- Dish name
+- Location
+- Caption
+- Like button
+- Comment button
+- Share button
+- Save button
+- View count
+- Book Now button
+
+The video must autoplay when visible and pause when it leaves the viewport.
+
+Use efficient video loading and lazy loading.
+
+Do not load every video simultaneously.
+
+## 5.3 Book Now from Reels
+
+Every Reel associated with a bookable masterclass must have a prominent:
+
+"Book Now"
+
+button.
+
+When the user clicks this button:
+
+1. Identify the associated masterclass.
+2. Store the masterclass ID and intended booking context.
+3. If the user is not authenticated, redirect to Login or Register.
+4. Preserve the intended masterclass during authentication.
+5. After successful authentication, redirect the user to the masterclass booking flow.
+6. Allow the user to select a session and number of guests.
+7. Continue to checkout and payment.
+
+The user must never lose the selected masterclass after login.
+
+If the Reel is not associated with a bookable masterclass, show:
+
+"Explore Restaurant"
+
+instead of Book Now.
+
+## 5.4 Reel Interactions
+
+Implement:
+
+- Like and unlike
+- Comments
+- Save to favorites
+- Share Reel
+- View count
+- Follow restaurant or creator, if supported
+
+All interactions must be connected to the backend.
+
+Do not implement fake buttons.
+
+## 5.5 Reels Upload
+
+Restaurants must be able to upload Reels from their Restaurant Cabinet.
+
+Upload fields:
+
+- Video file
+- Caption
+- Associated restaurant
+- Associated masterclass
+- Associated session, if relevant
+- Dish
+- Location
+- Thumbnail
+
+Video upload requirements:
+
+- Validate file type
+- Validate file size
+- Generate thumbnail
+- Store video in object storage
+- Save video metadata in PostgreSQL
+- Support moderation status
+
+Reel statuses:
+
+- Draft
+- Pending Moderation
+- Published
+- Rejected
+- Hidden
+
+Only approved and published videos may appear publicly.
+
+## 5.6 Reels Moderation
+
+Admin must be able to:
+
+- Review uploaded videos
+- Approve videos
+- Reject videos with a reason
+- Hide videos
+- Remove inappropriate content
+- View reports
+
+---
+
+# 6. CLIENT CABINET
+
+The Client Cabinet is the personal area for tourists and customers.
+
+Only authenticated users can access it.
+
+## 6.1 Client Dashboard
+
+Display:
+
+- Welcome message
+- Upcoming bookings
+- Completed experiences
+- Favorite masterclasses
+- Recently viewed experiences
+- Recommended experiences
+- Recent notifications
+
+## 6.2 My Bookings
+
+Create booking categories:
+
+- Upcoming
+- Completed
+- Cancelled
+
+Each booking card must contain:
+
+- Booking number
+- Masterclass title
+- Restaurant
+- Date and time
+- Number of guests
+- Total price
+- Booking status
+- Payment status
+
+Available actions:
+
+- View Details
+- Cancel Booking, if allowed
+- View Restaurant
+- Leave Review after completion
+
+## 6.3 Booking Details
+
+Display:
+
+- Booking ID
+- Masterclass
+- Restaurant and branch
+- Session date
+- Start time
+- Duration
+- Guest count
+- Guest information
+- Price breakdown
+- Platform fee, if applicable
+- Total amount
+- Payment status
+- Booking status
+- Cancellation policy
+- Location and map
+
+## 6.4 Favorites
+
+Users can save:
+
+- Masterclasses
+- Restaurants
+- Reels
+
+Allow users to remove items from favorites.
+
+## 6.5 My Reviews
+
+Users can:
+
+- View their reviews
+- Edit reviews within the allowed period
+- Add photos
+- Add videos
+- View restaurant responses
+
+Users may review only completed and attended bookings.
+
+## 6.6 Profile Settings
+
+Fields:
+
+- Full name
+- Email
+- Phone
+- Profile image
+- Country
+- Preferred language
+- Password
+
+Allow users to update their profile and change their password.
+
+## 6.7 Notifications
+
+Display notifications for:
+
+- Booking confirmation
+- Payment confirmation
+- Booking cancellation
+- Session changes
+- Upcoming experience reminders
+- Refund status
+- Restaurant responses to reviews
+
+---
+
+# 7. CLIENT AUTHENTICATION
+
+Implement a complete authentication system.
+
+Pages:
+
+- Login
+- Register
+- Forgot Password
+- Reset Password
+- Email Verification
+
+Registration fields:
+
+- Full name
+- Email
+- Phone number
+- Password
+- Confirm password
+
+Support:
+
+- Email and password authentication
+- Secure password hashing
+- JWT access and refresh tokens
+- Logout
+- Token refresh
+- Protected routes
+- Role-based authorization
+
+If a guest attempts to book an experience, preserve the intended booking and redirect them to authentication.
+
+After login, return them to the original booking flow.
+
+---
+
+# 8. MASTERCLASS CATALOG
+
+Create a complete masterclass discovery system.
+
+## 8.1 Masterclass Listing
+
+Display all published and bookable masterclasses.
+
+Filters:
+
+- Country
+- Region
+- City
+- Restaurant
+- Dish
+- Cuisine
+- Date
+- Price range
+- Duration
+- Difficulty
+- Language
+- Rating
+- Available seats
+
+Sorting:
+
+- Recommended
+- Popular
+- Highest Rated
+- Lowest Price
+- Highest Price
+- Newest
+
+## 8.2 Masterclass Card
+
+Each card contains:
+
+- Cover image
+- Title
+- Restaurant
+- Location
+- Dish
+- Duration
+- Price
+- Rating
+- Number of reviews
+- Next available session
+- Book Now
+
+## 8.3 Masterclass Details
+
+Display:
+
+- Title
+- Description
+- Restaurant
+- Branch
+- Chef or instructor
+- Dish
+- Culinary category
+- Difficulty
+- Duration
+- Language
+- Gallery
+- Video
+- Included services
+- Ingredients
+- Preparation information
+- Price
+- Available sessions
+- Capacity
+- Cancellation policy
+- Reviews
+- Location
+
+The page must include a clear booking widget.
+
+---
+
+# 9. BOOKING AND PAYMENT SYSTEM
+
+Implement a complete booking workflow.
+
+## 9.1 Booking Flow
+
+1. User selects a masterclass.
+2. User selects an available session.
+3. User selects the number of guests.
+4. User enters guest information.
+5. System checks available capacity.
+6. System temporarily reserves seats.
+7. User reviews the price.
+8. User proceeds to payment.
+9. Payment provider processes the transaction.
+10. Payment confirmation is verified.
+11. Booking becomes confirmed.
+12. User receives confirmation and notification.
+
+## 9.2 Booking Statuses
+
+- Pending Payment
+- Confirmed
+- Cancelled
+- Completed
+- Refunded
+- No-show
+
+## 9.3 Payment Statuses
+
+- Pending
+- Processing
+- Paid
+- Failed
+- Refund Pending
+- Refunded
+
+## 9.4 Booking Rules
+
+- Prevent overbooking.
+- Use database transactions and row-level locking where necessary.
+- Use temporary reservations for unpaid bookings.
+- Release expired reservations automatically.
+- Verify payment through secure server-side callbacks or webhooks.
+- Make payment operations idempotent.
+- Never trust payment success based only on frontend response.
+- Store booking price and commission snapshots.
+- Preserve booking history.
+- Do not delete confirmed bookings.
+
+## 9.5 Payment Integration
+
+Prepare a payment abstraction layer.
+
+The system must support integration with payment providers suitable for Uzbekistan, such as Click or Payme, subject to merchant credentials and provider documentation.
+
+If payment credentials are unavailable during development:
+
+- Implement a payment interface and provider adapter.
+- Use a clearly labeled development payment mode.
+- Do not present simulated payments as real payments.
+- Keep production payment configuration separate.
+
+---
+
+# 10. RESTAURANT CABINET
+
+The Restaurant Cabinet allows restaurant owners and their teams to manage culinary experiences.
+
+## 10.1 Restaurant Dashboard
+
+Display:
+
+- Total restaurants
+- Total branches
+- Active masterclasses
+- Upcoming sessions
+- Total bookings
+- Confirmed bookings
+- Completed bookings
+- Revenue
+- Platform commission
+- Pending payouts
+- Average rating
+
+Add charts for:
+
+- Bookings over time
+- Revenue over time
+- Popular masterclasses
+- Popular dishes
+
+## 10.2 Restaurant Profile
+
+Restaurant owners can manage:
+
+- Restaurant name
+- Description
+- Logo
+- Cover image
+- Gallery
+- Cuisine
+- Region
+- City
+- Address
+- Map coordinates
+- Phone
+- Email
+- Website
+- Social media
+- Languages
+- Opening hours
+
+Restaurant profile changes may require admin approval.
+
+## 10.3 Branch Management
+
+One restaurant account may manage multiple restaurants or branches.
+
+Branch fields:
+
+- Branch name
+- Parent restaurant
+- City
+- Region
+- Address
+- Map coordinates
+- Phone
+- Opening hours
+- Images
+- Manager
+- Status
+
+## 10.4 Masterclass Management
+
+Restaurant owners can create and manage masterclasses.
+
+Fields:
+
+- Title
+- Description
+- Dish
+- Category
+- Restaurant
+- Branch
+- Chef
+- Duration
+- Difficulty
+- Language
+- Maximum participants
+- Minimum participants
+- Price
+- Included services
+- Ingredients
+- Gallery
+- Video
+- Cancellation policy
+
+Masterclass statuses:
+
+- Draft
+- Pending Approval
+- Approved
+- Published
+- Rejected
+- Hidden
+
+Only approved masterclasses may be published publicly.
+
+## 10.5 Session Management
+
+A masterclass is a reusable experience template.
+
+A session is a specific scheduled event.
+
+One masterclass may have multiple sessions.
+
+Session fields:
+
+- Masterclass
+- Branch
+- Date
+- Start time
+- Duration
+- Capacity
+- Price
+- Minimum participants
+- Booking deadline
+- Cancellation deadline
+- Status
+
+Session statuses:
+
+- Scheduled
+- Full
+- In Progress
+- Completed
+- Cancelled
+
+Implement a calendar view:
+
+- Month
+- Week
+- Day
+- List
+
+Validate:
+
+- Session capacity
+- Branch availability
+- Schedule conflicts
+- Masterclass approval
+- Booking deadlines
+
+Do not allow a restaurant to directly delete or modify important session fields when confirmed bookings exist.
+
+Instead, provide a cancellation or rescheduling workflow.
+
+## 10.6 Booking Management
+
+Restaurant owners can:
+
+- View bookings
+- Search bookings
+- Filter by session
+- View guest details
+- View booking status
+- View payment status
+- Contact guests
+- Mark attendance
+- Mark no-show
+- Cancel a session according to policy
+
+## 10.7 Attendance
+
+After a session, restaurant staff must be able to mark guests as:
+
+- Attended
+- No-show
+
+Only completed experiences should become eligible for reviews.
+
+## 10.8 Reels Management
+
+Create a Restaurant Reels section.
+
+Restaurant users can:
+
+- Upload videos
+- Add captions
+- Select associated masterclass
+- Select dish
+- Add thumbnail
+- View moderation status
+- Edit drafts
+- View published videos
+- View video statistics
+
+## 10.9 Reviews Management
+
+Restaurants can:
+
+- View customer reviews
+- Respond to reviews
+- Report inappropriate reviews
+
+Restaurants cannot arbitrarily delete customer reviews.
+
+## 10.10 Revenue and Payouts
+
+Display:
+
+- Gross revenue
+- Platform commission
+- Refunds
+- Net earnings
+- Pending payouts
+- Paid payouts
+
+Create payout history with:
+
+- Payout ID
+- Amount
+- Date
+- Status
+- Payment method
+
+## 10.11 Team Management
+
+Restaurant Owner can invite team members.
+
+Roles:
+
+- Owner
+- Branch Manager
+- Chef / Instructor
+
+Permissions must be limited according to role.
+
+---
+
+# 11. ADMIN PANEL
+
+The Admin Panel is the central management system.
+
+Only authorized administrators can access it.
+
+## 11.1 Admin Dashboard
+
+Display:
+
+- Total users
+- Total restaurants
+- Total branches
+- Total masterclasses
+- Total sessions
+- Total bookings
+- Completed bookings
+- Cancelled bookings
+- Total GMV
+- Platform revenue
+- Pending payouts
+- Pending restaurant approvals
+- Pending masterclass approvals
+- Pending Reel moderation
+- Pending reports
+
+Add analytics charts.
+
+## 11.2 User Management
+
+Admin can:
+
+- View users
+- Search users
+- Filter users
+- View user profiles
+- View booking history
+- View payment history
+- View reviews
+- Suspend users
+- Reactivate users
+
+Never delete important transaction history.
+
+## 11.3 Restaurant Management
+
+Admin can:
+
+- View restaurants
+- Review restaurant registration
+- Verify documents
+- Approve restaurants
+- Reject restaurants with a reason
+- Suspend restaurants
+- Reactivate restaurants
+- View restaurant performance
+
+## 11.4 Masterclass Moderation
+
+Admin can:
+
+- View submitted masterclasses
+- Approve masterclasses
+- Reject masterclasses
+- Edit moderation metadata
+- Hide masterclasses
+- Archive masterclasses
+
+## 11.5 Session Management
+
+Admin can:
+
+- View all sessions
+- View capacity
+- View bookings
+- View cancellations
+- Monitor session status
+- Cancel problematic sessions according to policy
+
+## 11.6 Booking Management
+
+Admin can:
+
+- View all bookings
+- Search by booking ID
+- Filter by user
+- Filter by restaurant
+- Filter by date
+- View payment information
+- Resolve booking disputes
+- Initiate authorized refunds
+
+Bookings must not be permanently deleted.
+
+## 11.7 Payment Management
+
+Admin can:
+
+- View transactions
+- View payment provider
+- View transaction IDs
+- View payment status
+- View refunds
+- Reconcile payments
+
+## 11.8 Reels Moderation
+
+Admin can:
+
+- View pending videos
+- Approve videos
+- Reject videos
+- Hide videos
+- Remove inappropriate content
+- View reported videos
+- Review captions and associated masterclasses
+
+## 11.9 Dish and Cuisine Management
+
+Admin can manage:
+
+- Dish catalog
+- Cuisine categories
+- Dish descriptions
+- Dish images
+- Dish origin regions
+- Ingredients
+- Cultural information
+- SEO metadata
+
+Restaurants should select dishes from the central catalog.
+
+## 11.10 Location Management
+
+Create a hierarchical location system:
+
+Country → Region → City → District
+
+For Uzbekistan, support its regions and cities.
+
+## 11.11 Platform Settings
+
+Admin can configure:
+
+- Platform commission
+- Booking rules
+- Cancellation policy
+- Refund policy
+- Currency
+- Languages
+- Homepage featured content
+- Reels moderation settings
+- Email notifications
+- SEO settings
+- File upload limits
+- Maintenance mode
+
+## 11.12 Reports and Analytics
+
+Create reports for:
+
+- Revenue
+- GMV
+- Bookings
+- Restaurants
+- Users
+- Popular dishes
+- Popular regions
+- Popular masterclasses
+- Cancellation rate
+- Refund rate
+
+Support CSV or Excel export.
+
+---
+
+# 12. DATABASE DESIGN
+
+Create a normalized PostgreSQL database.
+
+Recommended tables:
+
+## Authentication
+
+- users
+- user_profiles
+- roles
+- permissions
+- user_roles
+- refresh_tokens
+
+## Restaurants
+
+- restaurant_accounts
+- restaurants
+- restaurant_branches
+- restaurant_members
+- restaurant_documents
+
+## Culinary Content
+
+- dishes
+- dish_categories
+- cuisines
+- masterclasses
+- masterclass_media
+- masterclass_sessions
+
+## Reels
+
+- reels
+- reel_media
+- reel_likes
+- reel_comments
+- reel_saves
+- reel_views
+- reel_reports
+
+## Booking
+
+- bookings
+- booking_guests
+- booking_status_history
+- session_attendance
+
+## Payments
+
+- payments
+- refunds
+- platform_commissions
+- restaurant_payouts
+
+## User Engagement
+
+- favorites
+- reviews
+- review_media
+- notifications
+- follows
+
+## Platform Administration
+
+- regions
+- cities
+- reports
+- audit_logs
+- platform_settings
+
+Create proper:
+
+- Primary keys
+- Foreign keys
+- Unique constraints
+- Indexes
+- Timestamps
+- Soft-delete fields where appropriate
+
+Use UUIDs or another consistent identifier strategy.
+
+Create database migrations.
+
+---
+
+# 13. BACKEND MODULES
+
+Organize the Golang backend using a clean modular architecture.
+
+Recommended modules:
+
+- Auth
+- Users
+- Restaurants
+- Branches
+- Dishes
+- Masterclasses
+- Sessions
+- Reels
+- Bookings
+- Payments
+- Reviews
+- Favorites
+- Notifications
+- Admin
+- Analytics
+- Uploads
+- Locations
+
+Each module should contain appropriate:
+
+- Handler
+- Service
+- Repository
+- DTO
+- Validation
+- Routes
+
+Use clear separation between business logic and HTTP handlers.
+
+Implement:
+
+- Centralized error handling
+- Request validation
+- Structured logging
+- Pagination
+- Filtering
+- Sorting
+- Authentication middleware
+- Role middleware
+- Rate limiting
+- CORS
+- Swagger documentation
+
+---
+
+# 14. FRONTEND DESIGN SYSTEM
+
+Use a premium culinary tourism visual identity.
+
+## Brand Direction
+
+TourChef should feel:
+
+- Warm
+- Premium
+- Authentic
+- Cultural
+- Modern
+- Trustworthy
+
+## Color Palette
+
+Use:
+
+- Warm cream / off-white background
+- Deep navy or dark charcoal for text
+- Terracotta or orange as the primary accent
+- Olive or muted green as a secondary accent
+
+Avoid excessive gradients and overly decorative UI.
+
+## Components
+
+Create reusable components:
+
+- Header
+- Footer
+- Button
+- Input
+- Search Bar
+- Masterclass Card
+- Restaurant Card
+- Dish Card
+- Reel Card
+- Booking Widget
+- Rating
+- Badge
+- Modal
+- Dropdown
+- Pagination
+- Table
+- Sidebar
+- Dashboard Card
+- Calendar
+- Empty State
+- Loading State
+- Error State
+
+Use consistent spacing, typography, border radius, shadows, and responsive behavior.
+
+---
+
+# 15. SECURITY AND BUSINESS RULES
+
+Implement the following requirements:
+
+- Passwords must be securely hashed.
+- JWT authentication must be implemented correctly.
+- Users must not access unauthorized cabinets.
+- Restaurant users must only access restaurants they belong to.
+- Admin routes must be protected.
+- Payment webhooks must be verified.
+- Booking capacity must be protected against race conditions.
+- Prevent duplicate payments and duplicate bookings.
+- Validate all uploaded files.
+- Restrict file types and sizes.
+- Use environment variables for secrets.
+- Record important administrative actions in audit logs.
+- Apply cancellation and refund policies consistently.
+- Prevent reviews from users who did not attend.
+- Prevent unauthorized changes to completed bookings.
+- Prevent restaurants from publishing unapproved masterclasses or Reels.
+
+---
+
+# 16. DEVELOPMENT PHASES
+
+Develop the application in the following order.
+
+## Phase 1 — Project Foundation
+
+- Inspect the existing repository.
+- Understand existing structure.
+- Set up frontend and backend.
+- Configure environment variables.
+- Configure PostgreSQL.
+- Configure Docker Compose.
+- Create database migrations.
+- Implement shared UI components.
+- Implement authentication.
+
+## Phase 2 — Public Website
+
+- Landing Page
+- Masterclass Catalog
+- Masterclass Details
+- Restaurant Profiles
+- Dish Pages
+- Search and Filters
+
+## Phase 3 — Reels
+
+- Vertical video feed
+- Video player
+- Reels API
+- Likes
+- Comments
+- Saves
+- Restaurant video uploads
+- Moderation workflow
+- Book Now integration
+
+## Phase 4 — Client Cabinet
+
+- Dashboard
+- Profile
+- Favorites
+- Booking History
+- Booking Details
+- Reviews
+- Notifications
+
+## Phase 5 — Restaurant Cabinet
+
+- Restaurant Registration
+- Restaurant Profile
+- Branch Management
+- Masterclass Management
+- Session Calendar
+- Booking Management
+- Attendance
+- Reels Management
+- Reviews
+- Revenue
+
+## Phase 6 — Booking and Payment
+
+- Booking Flow
+- Capacity Management
+- Temporary Reservations
+- Payment Integration
+- Payment Webhooks
+- Cancellation
+- Refund Workflow
+
+## Phase 7 — Admin Panel
+
+- Dashboard
+- User Management
+- Restaurant Approval
+- Masterclass Moderation
+- Reels Moderation
+- Booking Management
+- Payment Management
+- Dish Catalog
+- Reports
+- Settings
+
+## Phase 8 — Finalization
+
+- Test all user flows.
+- Fix bugs.
+- Improve performance.
+- Add loading states.
+- Add empty states.
+- Add error handling.
+- Verify responsive layouts.
+- Verify security.
+- Verify API integration.
+- Prepare production deployment.
+
+---
+
+# 17. MVP PRIORITIES
+
+The first release must include:
+
+1. Landing Page
+2. Masterclass Catalog
+3. Masterclass Details
+4. Reels Feed
+5. Authentication
+6. Client Cabinet
+7. Restaurant Cabinet
+8. Admin Panel
+9. Masterclass and Session Management
+10. Booking System
+11. Payment Integration or clearly isolated development payment mode
+12. Reviews
+13. Restaurant Reels Upload
+14. Reels Moderation
+15. Notifications
+
+Do not spend the first development phase on unnecessary advanced features.
+
+Prioritize a working end-to-end booking experience.
+
+---
+
+# 18. IMPORTANT DEVELOPMENT INSTRUCTIONS FOR THE AI AGENT
+
+You are acting as a senior full-stack developer and software architect.
+
+Your responsibility is to implement the complete TourChef platform according to this specification.
+
+Follow these rules:
+
+1. First inspect the existing repository and understand the current code.
+2. Preserve useful existing code and functionality.
+3. Do not unnecessarily rewrite the entire project.
+4. Create a clear implementation plan based on the current repository.
+5. Implement the project in logical phases.
+6. Build real frontend pages and backend APIs.
+7. Connect all frontend pages to the backend.
+8. Use PostgreSQL as the source of truth.
+9. Do not use mock data for completed production features.
+10. Do not create buttons that have no functionality.
+11. Do not create empty pages or placeholder dashboards.
+12. Implement real forms, validations, filters, pagination, and actions.
+13. Use proper loading, success, empty, and error states.
+14. Ensure all protected routes use authentication and authorization.
+15. Ensure all booking and payment operations follow the business rules.
+16. Ensure the Reels booking flow preserves the selected masterclass through login.
+17. Use reusable components and maintainable code.
+18. Keep the project compatible with Docker-based local development.
+19. Update the README with setup instructions.
+20. Create migrations and seed data for development.
+
+For development seed data, create realistic examples of:
+
+- Uzbek restaurants
+- Traditional Uzbek dishes
+- Culinary masterclasses
+- Scheduled sessions
+- Reels videos or development video references
+- Sample client accounts
+- Sample restaurant accounts
+
+Clearly separate seed data from production data.
+
+## FINAL ACCEPTANCE CRITERIA
+
+The project is considered complete when the following scenario works end to end:
+
+A visitor opens the TourChef Landing Page.
+
+They understand what TourChef is and see available culinary experiences.
+
+They open the Reels section and watch videos of restaurants, chefs, and traditional Uzbek dishes.
+
+They discover a video connected to a masterclass.
+
+They click Book Now.
+
+If they are not logged in, they are redirected to Login or Register without losing the selected masterclass.
+
+After authentication, they select a session, choose the number of guests, and complete the booking process.
+
+The payment is processed or handled through the configured development payment mode.
+
+The booking appears in the Client Cabinet.
+
+The restaurant sees the booking in its Restaurant Cabinet.
+
+The restaurant can manage the session and mark attendance.
+
+After the experience is completed, the client can leave a review.
+
+The Admin Panel can manage the restaurant, masterclass, Reel, booking, and payment records.
+
+All core actions must work with real backend APIs and PostgreSQL.
+
+**Build TourChef as a complete, production-oriented culinary tourism marketplace with a beautiful public website, a functional Reels discovery experience, and fully integrated Client, Restaurant, and Admin Cabinets.**

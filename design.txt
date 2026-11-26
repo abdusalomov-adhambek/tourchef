@@ -1,0 +1,173 @@
+## TOURCHEF — DESIGN SYSTEM PROMPT
+
+Design and implement a premium culinary tourism marketplace called TourChef.
+
+### Visual Direction
+
+Create a modern, elegant, warm, and editorial design inspired by premium food travel platforms.
+
+The design must communicate:
+- Authentic Uzbek culinary culture
+- Premium restaurant experiences
+- Culinary tourism
+- Trust and quality
+- Modern digital product aesthetics
+
+Avoid generic SaaS dashboard styling on the public website.
+
+### Color Palette
+
+Use the following design tokens consistently:
+
+- Primary Background: #F8F5EF
+- Surface / Cards: #FFFFFF
+- Primary Text: #252923
+- Secondary Text: #77766F
+- Primary Accent: #C65D3A
+- Primary Accent Hover: #A94B2D
+- Secondary Accent: #D9A441
+- Sage Green: #7B8B68
+- Border: #E8E2D8
+- Reels Background: #111310
+- Reels Text: #FFFFFF
+
+### Typography
+
+Use:
+- DM Sans for body text, UI, buttons, forms, and dashboards
+- Playfair Display for selected editorial headings and hero titles
+
+### Landing Page
+
+Create a visually impressive landing page with:
+- Large editorial hero section
+- High-quality Uzbek food photography
+- Clear search interface
+- Featured masterclasses
+- Popular Uzbek dishes
+- Featured restaurants
+- Reels preview section
+- How TourChef Works
+- About TourChef
+- Restaurant partner CTA
+- Testimonials
+- Premium footer
+
+### Reels
+
+Create a mobile-first, full-screen vertical video experience.
+
+Use a dark interface:
+- Background: #111310
+- White text
+- Terracotta Book Now button
+- Restaurant information overlay
+- Smooth vertical scrolling
+- Autoplay visible video
+- Pause videos outside the viewport
+
+Reels must feel similar to Instagram Reels while remaining focused on culinary tourism.
+
+### Cards and Components
+
+Use:
+- 16–24px card border radius
+- Subtle shadows
+- Thin neutral borders
+- Consistent spacing
+- High-quality image crops
+- Clear typography hierarchy
+- Accessible contrast
+
+### Interaction Design
+
+All buttons and controls must have:
+- Hover state
+- Active state
+- Disabled state
+- Loading state when appropriate
+
+Use terracotta only for important actions and active elements.
+
+### Responsive Design
+
+Ensure excellent responsive behavior for:
+- Desktop
+- Tablet
+- Mobile
+
+The mobile experience must be especially polished because Reels and booking discovery are mobile-oriented.
+
+### Important
+
+Do not create a generic template website.
+
+Create a distinctive TourChef visual identity that combines premium culinary travel, Uzbek cultural authenticity, and modern booking platform UX.
+
+Use the same design system across the Landing Page, Reels, Client Cabinet, Restaurant Cabinet, and Admin Panel, while adapting the interface to each product area.
+
+
+## TOURCHEF TYPOGRAPHY SYSTEM
+
+Implement a premium typography system for TourChef.
+
+### Font Families
+
+Use Google Fonts:
+
+- DM Sans — primary font for the entire application UI
+- Playfair Display — editorial display font for selected headings
+
+### Font Usage
+
+Playfair Display:
+- Landing Page hero title
+- Major editorial section headings
+- Selected culinary experience highlights
+- About TourChef headings
+
+DM Sans:
+- Body text
+- Navigation
+- Buttons
+- Forms
+- Masterclass cards
+- Restaurant cards
+- Reels interface
+- Client Cabinet
+- Restaurant Cabinet
+- Admin Panel
+- Tables and data
+
+### Typography Scale
+
+- Hero heading: 64px desktop, 38px mobile
+- Page heading: 40px desktop, 30px mobile
+- Section heading: 32px desktop, 26px mobile
+- Card title: 20px desktop, 18px mobile
+- Body text: 16px desktop, 15px mobile
+- Secondary text: 14px
+- Caption: 12px
+- Button text: 15px desktop, 14px mobile
+
+### Typography Rules
+
+- Body line-height: 1.6
+- Heading line-height: 1.15
+- Body font-weight: 400
+- Button font-weight: 600
+- Use elegant but readable heading typography.
+- Avoid excessive letter spacing.
+- Maintain consistent typography across all pages.
+- Use responsive typography.
+- Ensure proper font loading and fallback fonts.
+
+### Implementation
+
+Create reusable typography styles and design tokens.
+
+Do not use random font families across different pages.
+
+The Landing Page should feel editorial and premium, while the cabinets should remain clean, readable, and highly functional.
+
+Use DM Sans as the default font and Playfair Display only where it adds visual character.

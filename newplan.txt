@@ -1,0 +1,329 @@
+# TOURCHEF — INTERACTIVE UZBEKISTAN FOOD MAP
+
+## Feature: Taste of Uzbekistan
+
+Add a beautiful, fully interactive Uzbekistan culinary map section to the existing TourChef Landing Page.
+
+This feature must help tourists discover Uzbekistan's regions through their famous traditional dishes.
+
+The map is not just a static image. It must be an interactive regional food discovery experience connected to the TourChef platform.
+
+## 1. SECTION PLACEMENT
+
+Add this section to the existing Landing Page.
+
+Place it after the Featured Masterclasses or Popular Uzbek Dishes section.
+
+Section title:
+
+"Taste of Uzbekistan"
+
+Subtitle:
+
+"Explore Uzbekistan region by region and discover the traditional flavors that make every destination unique."
+
+Alternative heading:
+
+"Every Region Has Its Own Flavor"
+
+Use the existing TourChef design system:
+
+- Background: #F8F5EF
+- Primary text: #252923
+- Primary accent: #C65D3A
+- Secondary accent: #D9A441
+- Surface: #FFFFFF
+- Border: #E8E2D8
+
+Typography:
+
+- DM Sans for UI and body text
+- Playfair Display for the section heading
+
+Maintain the existing TourChef brand identity and visual style.
+
+## 2. INTERACTIVE MAP
+
+Display a geographically accurate map of Uzbekistan.
+
+The map must show the country's regional boundaries.
+
+Include:
+
+- Republic of Karakalpakstan
+- Tashkent City
+- Tashkent Region
+- Andijan Region
+- Fergana Region
+- Namangan Region
+- Samarkand Region
+- Bukhara Region
+- Khorezm Region
+- Jizzakh Region
+- Syrdarya Region
+- Kashkadarya Region
+- Surkhandarya Region
+- Navoi Region
+
+Use a real geographic map or GeoJSON-based regional boundaries.
+
+Do not create an inaccurate map by drawing arbitrary shapes.
+
+Recommended implementation:
+
+- Leaflet
+- GeoJSON regional boundaries
+- OpenStreetMap-compatible basemap, if needed
+
+Use the existing frontend stack:
+
+- Nuxt 3
+- Vue 3
+- TypeScript
+- Tailwind CSS
+
+## 3. FOOD MARKERS
+
+Each region must have a featured traditional dish.
+
+Display a small food marker or dish thumbnail on the map.
+
+Examples:
+
+- Jizzakh Region — Jizzakh Somsa
+- Samarkand Region — Samarkand Plov
+- Bukhara Region — Bukhara-style Plov
+- Fergana Region — Fergana Plov
+- Andijan Region — Andijan Manti
+- Khorezm Region — Shivit Oshi
+- Kashkadarya Region — Tandir Kebab
+- Surkhandarya Region — Regional traditional dishes
+- Tashkent City — Tashkent Plov
+- Karakalpakstan — Traditional Karakalpak dishes
+
+These are initial examples, not a final verified culinary catalog.
+
+Keep all regional dish data configurable and editable through the Admin Panel.
+
+Do not hardcode the regional dish catalog directly into the map component.
+
+Create a reusable data model for regions and featured dishes.
+
+## 4. MAP INTERACTIONS
+
+When the user hovers over a region:
+
+- Highlight the region
+- Show its name
+- Show its featured dish
+- Display a small preview card
+
+When the user clicks a region:
+
+- Highlight the selected region
+- Open a detailed information panel
+- Show the regional featured dish
+- Display a high-quality dish image
+- Show the dish name
+- Show the region name
+- Show a short description
+- Show cultural or historical information
+- Display related culinary masterclasses
+- Display restaurants offering that dish or experience
+
+The map and information panel must remain synchronized.
+
+When a region is selected, its information must update without reloading the page.
+
+## 5. REGIONAL FOOD DETAIL PANEL
+
+Create a premium detail panel next to the map.
+
+Desktop layout:
+
+- Map on the left
+- Selected region details on the right
+
+The detail panel must contain:
+
+- Region name
+- Featured dish image
+- Dish name
+- Short description
+- Traditional ingredients
+- Cultural background
+- Related masterclasses
+- Related restaurants
+
+Example content:
+
+Region: Jizzakh
+
+Featured Dish: Jizzakh Somsa
+
+Description:
+
+"Discover the famous Jizzakh somsa, known for its generous filling, traditional preparation, and distinctive local flavor."
+
+Buttons:
+
+- Explore Dish
+- Find Masterclasses
+- Explore Region
+
+All buttons must navigate to the appropriate existing TourChef pages.
+
+## 6. MASTERCLASS INTEGRATION
+
+The regional food map must be connected to the TourChef Masterclass Catalog.
+
+When a user selects a region:
+
+- Fetch related masterclasses
+- Filter masterclasses by region
+- Show available experiences
+- Display upcoming sessions
+- Display prices
+- Display restaurant names
+
+If masterclasses are available, show a section:
+
+"Experience This Dish"
+
+Each masterclass card must contain:
+
+- Image
+- Title
+- Restaurant
+- Location
+- Price
+- Rating
+- Next available session
+- Book Now button
+
+If no masterclasses exist for a region, display a proper empty state.
+
+Do not show fake masterclasses.
+
+## 7. BOOKING FLOW
+
+If the user clicks Book Now from a regional masterclass:
+
+1. Preserve the selected masterclass.
+2. Redirect unauthenticated users to Login or Register.
+3. After authentication, return to the selected booking flow.
+4. Allow session selection.
+5. Continue to the booking and payment process.
+
+The regional map must integrate with the existing TourChef booking system.
+
+## 8. ADMIN CONTENT MANAGEMENT
+
+Add regional food management to the Admin Panel.
+
+Admin must be able to manage:
+
+- Region
+- Region name
+- Region slug
+- Region description
+- Featured dish
+- Dish image
+- Dish description
+- Ingredients
+- Cultural information
+- Map coordinates or geographic identifier
+- Related masterclasses
+- Related restaurants
+- Publication status
+
+Admin must be able to:
+
+- Create a regional food entry
+- Edit regional information
+- Change the featured dish
+- Upload dish images
+- Publish or hide regional content
+
+Use PostgreSQL as the source of truth.
+
+## 9. RESPONSIVE DESIGN
+
+Desktop:
+
+- Large interactive map
+- Regional food markers
+- Side detail panel
+- Featured masterclass cards
+
+Tablet:
+
+- Responsive map
+- Compact detail panel
+
+Mobile:
+
+- Full-width map
+- Touch-friendly region selection
+- Regional food information displayed below the map
+- Horizontally scrollable regional dish cards
+- Avoid tiny markers that are difficult to tap
+
+Ensure the map is usable on mobile devices.
+
+## 10. ANIMATIONS AND UX
+
+Use subtle animations:
+
+- Region hover transition
+- Selected region highlight
+- Marker hover
+- Detail panel transition
+- Smooth map interaction
+
+Avoid excessive animation.
+
+Add:
+
+- Loading state
+- Error state
+- Empty state
+- Selected region state
+- Accessible keyboard interactions where possible
+
+## 11. TECHNICAL REQUIREMENTS
+
+Create reusable components:
+
+- UzbekistanFoodMap.vue
+- RegionFoodMarker.vue
+- RegionalFoodDetail.vue
+- RegionalMasterclassList.vue
+
+Create appropriate API endpoints.
+
+Suggested endpoints:
+
+- GET /api/v1/regions
+- GET /api/v1/regions/:slug
+- GET /api/v1/regions/:slug/featured-dish
+- GET /api/v1/regions/:slug/masterclasses
+- GET /api/v1/regions/:slug/restaurants
+
+Use proper TypeScript interfaces.
+
+Do not use static mock data as the final implementation.
+
+If the backend regional catalog is not ready, create a clearly separated development seed dataset and integrate it with the database.
+
+## 12. FINAL RESULT
+
+The final section should feel like an interactive culinary travel map.
+
+Visitors must be able to explore Uzbekistan geographically, discover the famous dishes of each region, learn about local food culture, find restaurants and masterclasses, and continue directly to booking.
+
+The feature must be visually premium, accurate, responsive, and fully integrated into the existing TourChef Landing Page.
+
+Do not redesign the entire website.
+
+Add this feature while preserving the current TourChef layout, colors, typography, and existing functionality.
